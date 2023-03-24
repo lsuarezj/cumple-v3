@@ -1,126 +1,42 @@
+import { Grid } from "@mui/material";
 import * as React from "react";
+import { getDataForComponent } from "../services/customSPDAO";
+import { IUser } from "../services/IUser";
+import BirthDayCard from "./BirthDayCard";
 import styles from "./Birthdays.module.scss";
 import { IBirthdaysProps } from "./IBirthdaysProps";
-import { escape } from "@microsoft/sp-lodash-subset";
-import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
-import { IUser } from "../services/IUser";
 
-export default class Birthdays extends React.Component<IBirthdaysProps, {}> {
-  public componentDidMount(): void {
-    this._getListItems();
+export default class Birthdays extends React.Component<
+  IBirthdaysProps,
+  { users: IUser[] }
+> {
+  constructor(props: IBirthdaysProps) {
+    super(props);
+
+    this.state = {
+      users: [],
+    };
+  }
+  public async componentDidMount(): Promise<void> {
+    const data = await getDataForComponent(this.props);
+    console.log("data", data);
+    this.setState({ users: data });
   }
 
-  private _getListItems(): void {
-    this.props.context.spHttpClient
-      .get(
-        `${this.props.context.pageContext.web.absoluteUrl}/_api/lists/getbytitle('MyList')/items?$select=Id,Title,Description`,
-        SPHttpClient.configurations.v1
-      )
-      .then((response: SPHttpClientResponse) => {
-        return response.json();
-      })
-      .then((data: { value: IUser[] }) => {
-        this.setState({
-          items: data.value,
-        });
-      });
-  }
   public render(): React.ReactElement<IBirthdaysProps> {
-    const {
-      description,
-      isDarkTheme,
-      environmentMessage,
-      hasTeamsContext,
-      userDisplayName,
-    } = this.props;
-
+    const { users } = this.state;
+    const { hasTeamsContext } = this.props;
     return (
       <section
         className={`${styles.birthdays} ${hasTeamsContext ? styles.teams : ""}`}
       >
-        <div className={styles.welcome}>
-          <img
-            alt=""
-            src={
-              isDarkTheme
-                ? require("../assets/welcome-dark.png")
-                : require("../assets/welcome-light.png")
-            }
-            className={styles.welcomeImage}
-          />
-          <h2>Well done, {escape(userDisplayName)}!</h2>
-          <div>{environmentMessage}</div>
-          <div>
-            Web part property value: <strong>{escape(description)}</strong>
-          </div>
-        </div>
-        <div>
-          <h3>Welcome to SharePoint Framework!</h3>
-          <p>
-            The SharePoint Framework (SPFx) is a extensibility model for
-            Microsoft Viva, Microsoft Teams and SharePoint. It&#39;s the easiest
-            way to extend Microsoft 365 with automatic Single Sign On, automatic
-            hosting and industry standard tooling.
-          </p>
-          <h4>Learn more about SPFx development:</h4>
-          <ul className={styles.links}>
-            <li>
-              <a href="https://aka.ms/spfx" target="_blank" rel="noreferrer">
-                SharePoint Framework Overview
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://aka.ms/spfx-yeoman-graph"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Use Microsoft Graph in your solution
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://aka.ms/spfx-yeoman-teams"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Build for Microsoft Teams using SharePoint Framework
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://aka.ms/spfx-yeoman-viva"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Build for Microsoft Viva Connections using SharePoint Framework
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://aka.ms/spfx-yeoman-store"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Publish SharePoint Framework applications to the marketplace
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://aka.ms/spfx-yeoman-api"
-                target="_blank"
-                rel="noreferrer"
-              >
-                SharePoint Framework API reference
-              </a>
-            </li>
-            <li>
-              <a href="https://aka.ms/m365pnp" target="_blank" rel="noreferrer">
-                Microsoft 365 Developer Community
-              </a>
-            </li>
-          </ul>
-        </div>
+        <Grid container spacing={2}>
+          {users.length > 0 ? (
+            users.map((user: IUser) => <BirthDayCard user={user} />)
+          ) : (
+            <div>no data</div>
+          )}
+        </Grid>
       </section>
     );
   }

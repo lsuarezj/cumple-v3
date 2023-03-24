@@ -81,7 +81,7 @@ export default class BirthdaysWebPart extends BaseClientSideWebPart<IBirthdaysWe
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField("title", {
+                PropertyPaneTextField("description", {
                   label: strings.titleLabel,
                 }),
                 PropertyPaneDropdown("webpartType", {

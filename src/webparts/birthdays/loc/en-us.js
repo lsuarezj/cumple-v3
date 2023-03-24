@@ -22,5 +22,7 @@ define([], function () {
     numberUpcomingDaysLabel: "Número de cumpleaños cercanos ",
     numberUpcomingDaysDescription:
       "Ej: 5 días contando HOY (Mínimo 1 - Máximo 10)",
+    happyBirthdayMessage: "¡Feliz cumpleaños!",
+    cardActionMessage: "Envíale un mensaje",
   };
 });
