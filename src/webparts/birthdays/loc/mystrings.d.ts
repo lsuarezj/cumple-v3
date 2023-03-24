@@ -20,6 +20,7 @@ declare interface IBirthdaysWebPartStrings {
   noAnniversaryMessage: string;
   happyBirthdayMessage: string;
   cardActionMessage: string;
+  messageSubject: string;
 }
 
 declare module "BirthdaysWebPartStrings" {

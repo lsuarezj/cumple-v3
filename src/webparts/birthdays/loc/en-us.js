@@ -24,5 +24,6 @@ define([], function () {
       "Ej: 5 días contando HOY (Mínimo 1 - Máximo 10)",
     happyBirthdayMessage: "¡Feliz cumpleaños!",
     cardActionMessage: "Envíale un mensaje",
+    messageSubject: "Feliz cumpleaños",
   };
 });
