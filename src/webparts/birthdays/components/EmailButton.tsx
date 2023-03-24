@@ -11,7 +11,7 @@ const EmailButton = (props: { userEmail: any; children: any }) => {
     window.location.href = mailtoLink;
   };
   return (
-    <Button size="small" onClick={handleClick}>
+    <Button style={{ color: "#FFF" }} size="small" onClick={handleClick}>
       {children}
     </Button>
   );

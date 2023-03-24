@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
   Avatar,
-  Button,
   Card,
   CardActions,
   CardContent,
@@ -86,21 +85,26 @@ const BirthDayCard = ({ user }: { user: IUser }) => {
               </svg>
             </div>
           }
-          title={<div>{strings.happyBirthdayMessage}</div>}
-          subheader={<div>{userName}</div>}
+          title={
+            <Typography variant="body2" color={"red"}>
+              {strings.happyBirthdayMessage}
+            </Typography>
+          }
+          subheader={<Typography variant="body2">{userName}</Typography>}
         />
         <CardContent>
           <Avatar src={userPhoto} alt={userName} />
           <Typography variant="body2">{jobDescription}</Typography>
           <Typography variant="body2">{birthday}</Typography>
         </CardContent>
-        <CardActions>
+        <CardActions style={{ backgroundColor: "red", color: "white" }}>
           <svg
             fill="#FFFFFF"
             width="30px"
             height="30px"
             viewBox="-3.2 -3.2 38.40 38.40"
             xmlns="http://www.w3.org/2000/svg"
+            enableBackground="new -3.2 -3.2 38.40 38.40"
             stroke="#FFFFFF"
           >
             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
