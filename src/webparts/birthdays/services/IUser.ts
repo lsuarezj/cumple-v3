@@ -5,6 +5,6 @@ export interface IUser {
   birthday: string;
   userEmail: string;
   message: string;
-  anniversary: boolean;
+  anniversary: string;
   userPhoto: string;
 }

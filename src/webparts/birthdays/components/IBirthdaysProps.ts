@@ -6,7 +6,7 @@ export interface IBirthdaysProps {
   environmentMessage: string;
   hasTeamsContext: boolean;
   userDisplayName: string;
-  webpartType: string;
+  webpartType: boolean;
   numberUpcomingDays: number;
   context: WebPartContext;
   useTestData: boolean;

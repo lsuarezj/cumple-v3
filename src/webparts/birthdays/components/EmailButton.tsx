@@ -8,10 +8,18 @@ const EmailButton = (props: { userEmail: any; children: any }) => {
     const mailtoLink = `mailto:${userEmail}?subject=${encodeURIComponent(
       strings.messageSubject
     )}`;
-    window.location.href = mailtoLink;
+    console.log(mailtoLink);
+    window.open(mailtoLink, "_blank");
   };
+
   return (
-    <Button style={{ color: "#FFF" }} size="small" onClick={handleClick}>
+    <Button
+      style={{ color: "#FFF" }}
+      size="small"
+      onClick={() => {
+        handleClick();
+      }}
+    >
       {children}
     </Button>
   );

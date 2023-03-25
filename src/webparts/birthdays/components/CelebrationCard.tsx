@@ -14,7 +14,13 @@ import * as strings from "BirthdaysWebPartStrings";
 import EmailButton from "./EmailButton";
 import { DateTime } from "luxon";
 
-const BirthDayCard = ({ user }: { user: IUser }) => {
+const CelebrationCard = ({
+  user,
+  celebrationType,
+}: {
+  user: IUser;
+  celebrationType: boolean;
+}) => {
   const {
     // key,
     userName,
@@ -22,7 +28,7 @@ const BirthDayCard = ({ user }: { user: IUser }) => {
     birthday,
     userEmail,
     // message,
-    // anniversary,
+    anniversary,
     userPhoto,
   } = user;
 
@@ -34,6 +40,10 @@ const BirthDayCard = ({ user }: { user: IUser }) => {
     : DateTime.local(currentYear, month, day)
         .setLocale("es")
         .toFormat("dd 'de' MMMM");
+  const calculateYearsNumber = (): string => {
+    const [ayear] = anniversary.split("-").map((item) => parseInt(item));
+    return (currentYear - ayear).toString();
+  };
 
   return (
     <Grid item>
@@ -99,7 +109,9 @@ const BirthDayCard = ({ user }: { user: IUser }) => {
           }
           title={
             <Typography variant="body2" color={"red"}>
-              {strings.happyBirthdayMessage}
+              {celebrationType
+                ? strings.happyBirthdayMessage
+                : `${calculateYearsNumber()} ${strings.anniversaryMessage}`}
             </Typography>
           }
           subheader={
@@ -172,4 +184,4 @@ const BirthDayCard = ({ user }: { user: IUser }) => {
   );
 };
 
-export default BirthDayCard;
+export default CelebrationCard;

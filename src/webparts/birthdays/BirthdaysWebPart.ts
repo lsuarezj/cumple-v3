@@ -3,8 +3,8 @@ import * as ReactDom from "react-dom";
 import { Version } from "@microsoft/sp-core-library";
 import {
   IPropertyPaneConfiguration,
-  PropertyPaneDropdown,
   PropertyPaneTextField,
+  PropertyPaneToggle,
 } from "@microsoft/sp-property-pane";
 import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 import { IReadonlyTheme } from "@microsoft/sp-component-base";
@@ -12,11 +12,10 @@ import { PropertyFieldNumber } from "@pnp/spfx-property-controls/lib/PropertyFie
 import * as strings from "BirthdaysWebPartStrings";
 import Birthdays from "./components/Birthdays";
 import { IBirthdaysProps } from "./components/IBirthdaysProps";
-import { PropertyFieldToggleWithCallout } from "@pnp/spfx-property-controls";
 
 export interface IBirthdaysWebPartProps {
   description: string;
-  webpartType: string;
+  webpartType: boolean;
   numberUpcomingDays: number;
   useTestData: boolean;
 }
@@ -73,6 +72,10 @@ export default class BirthdaysWebPart extends BaseClientSideWebPart<IBirthdaysWe
     return Version.parse("1.0");
   }
 
+  protected get disableReactivePropertyChanges(): boolean {
+    return false;
+  }
+
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
       pages: [
@@ -87,18 +90,10 @@ export default class BirthdaysWebPart extends BaseClientSideWebPart<IBirthdaysWe
                 PropertyPaneTextField("description", {
                   label: strings.titleLabel,
                 }),
-                PropertyPaneDropdown("webpartType", {
+                PropertyPaneToggle("webpartType", {
                   label: strings.webpartTypeLabel,
-                  options: [
-                    {
-                      key: strings.webpartTypeBirthday,
-                      text: strings.webpartTypeBirthday,
-                    },
-                    {
-                      key: strings.webpartTypeAnniversary,
-                      text: strings.webpartTypeAnniversary,
-                    },
-                  ],
+                  onText: strings.webpartTypeBirthday,
+                  offText: strings.webpartTypeAnniversary,
                 }),
                 PropertyFieldNumber("numberUpcomingDays", {
                   key: "numberUpcomingDays",
@@ -109,7 +104,7 @@ export default class BirthdaysWebPart extends BaseClientSideWebPart<IBirthdaysWe
                   minValue: 1,
                   disabled: false,
                 }),
-                PropertyFieldToggleWithCallout("useTestData", {
+                PropertyPaneToggle("useTestData", {
                   key: "useTestData",
                   label: "Use test data",
                   onText: "Yes",

@@ -19,8 +19,11 @@ declare interface IBirthdaysWebPartStrings {
   noBirthdayMessage: string;
   noAnniversaryMessage: string;
   happyBirthdayMessage: string;
+  anniversaryMessage: string;
   cardActionMessage: string;
   messageSubject: string;
+  webpartTitleAniversario: string;
+  webpartTitleCumpleaños: string;
 }
 
 declare module "BirthdaysWebPartStrings" {

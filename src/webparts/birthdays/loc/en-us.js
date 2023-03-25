@@ -19,11 +19,14 @@ define([], function () {
     webpartTypeLabel: "Tipo de componente",
     webpartTypeBirthday: "Cumpleaños",
     webpartTypeAnniversary: "Aniversario",
+    webpartTitleCumpleaños: "Cumpleaños",
+    webpartTitleAniversario: "Años de servicio",
     numberUpcomingDaysLabel: "Número de cumpleaños cercanos ",
     numberUpcomingDaysDescription:
       "Ej: 5 días contando HOY (Mínimo 1 - Máximo 10)",
     happyBirthdayMessage: "¡Feliz cumpleaños!",
     cardActionMessage: "Envíale un mensaje",
     messageSubject: "Feliz cumpleaños",
+    anniversaryMessage: "Años de servicio",
   };
 });

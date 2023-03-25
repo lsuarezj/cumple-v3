@@ -3,12 +3,11 @@ import { IUser } from "./IUser";
 import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
 import { DateTime } from "luxon";
 
-const currentYear = new Date().getFullYear();
 export const getDataForComponent = async (
   props: IBirthdaysProps
 ): Promise<IUser[]> => {
-  const { context, numberUpcomingDays, useTestData } = props;
-  //   const baseURL = context.pageContext.web.absoluteUrl;s
+  const { context, numberUpcomingDays, useTestData, webpartType } = props;
+  // const baseURL = context.pageContext.web.absoluteUrl;
   const baseURL = "https://camaramed.sharepoint.com/";
   const listName = "Birthdays";
   const select = "$select=Id,Title,email,JobTitle,Aniversity,Birthday";
@@ -26,7 +25,9 @@ export const getDataForComponent = async (
 
   return data.value
     .filter((item: any) => {
-      return validateBirthday(item.Birthday, numberUpcomingDays);
+      return useTestData || webpartType
+        ? validateBirthday(item.Birthday, numberUpcomingDays)
+        : validateAnniversary(item.Aniversity, numberUpcomingDays);
     })
     .map((item: any) => {
       return {
@@ -41,13 +42,64 @@ export const getDataForComponent = async (
     });
 };
 
+const validateDate = (
+  dateString: string,
+  numberUpcomingDays: number,
+  targetYear: number
+): boolean => {
+  try {
+    const { month, day } = DateTime.fromISO(dateString).toObject();
+    const targetDate = DateTime.local(targetYear, month, day);
+    const currentDate = DateTime.now();
+    return (
+      targetDate > currentDate &&
+      targetDate.diff(currentDate, "days").toObject().days <= numberUpcomingDays
+    );
+  } catch (error) {
+    console.error("Error validating date:", error);
+    return false;
+  }
+};
+
 const validateBirthday = (
   birthday: string,
   numberUpcomingDays: number
 ): boolean => {
-  const [_year, month, day] = birthday.split("-").map((item) => parseInt(item));
-  const date1 = DateTime.local(currentYear, month, day);
-  const date2 = DateTime.fromISO(new Date().toISOString());
-  const diffInDays = Math.ceil(date2.diff(date1, "days").toObject().days);
-  return diffInDays > 0 && diffInDays <= numberUpcomingDays;
+  return validateDate(birthday, numberUpcomingDays, new Date().getFullYear());
 };
+
+const validateAnniversary = (
+  anniversary: string,
+  numberUpcomingDays: number
+): boolean => {
+  console.log("anniversary: ");
+  return validateDate(
+    anniversary,
+    numberUpcomingDays,
+    new Date().getFullYear()
+  );
+};
+
+// const validateBirthday = (
+//   birthday: string,
+//   numberUpcomingDays: number
+// ): boolean => {
+//   const [_year, month, day] = birthday.split("-").map((item) => parseInt(item));
+//   const date1 = DateTime.local(currentYear, month, day);
+//   const date2 = DateTime.fromISO(new Date().toISOString());
+//   const diffInDays = Math.ceil(date2.diff(date1, "days").toObject().days);
+//   return diffInDays > 0 && diffInDays <= numberUpcomingDays;
+// };
+
+// const validateAniversary = (
+//   anniversary: string,
+//   numberUpcomingDays: number
+// ): boolean => {
+//   const [_year, month, day] = anniversary
+//     .split("-")
+//     .map((item) => parseInt(item));
+//   const date1 = DateTime.local(currentYear, month, day);
+//   const date2 = DateTime.fromISO(new Date().toISOString());
+//   const diffInDays = Math.ceil(date2.diff(date1, "days").toObject().days);
+//   return diffInDays > 0 && diffInDays <= numberUpcomingDays;
+// };
