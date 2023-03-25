@@ -13,11 +13,11 @@ export default class Birthdays extends React.Component<
 > {
   constructor(props: IBirthdaysProps) {
     super(props);
-
     this.state = {
       users: [],
     };
   }
+
   public async componentDidMount(): Promise<void> {
     this.getData();
   }
@@ -29,8 +29,7 @@ export default class Birthdays extends React.Component<
 
   public render(): React.ReactElement<IBirthdaysProps> {
     const { users } = this.state;
-    const { hasTeamsContext, useTestData, webpartType } = this.props;
-    console.log(webpartType);
+    const { hasTeamsContext, useTestData, webpartType, wrapName } = this.props;
     return (
       <section
         className={`${styles.birthdays} ${hasTeamsContext ? styles.teams : ""}`}
@@ -46,7 +45,11 @@ export default class Birthdays extends React.Component<
         <Grid container spacing={2}>
           {users.length > 0 ? (
             users.map((user: IUser) => (
-              <CelebrationCard user={user} celebrationType={webpartType} />
+              <CelebrationCard
+                user={user}
+                celebrationType={webpartType}
+                wrapName={wrapName}
+              />
             ))
           ) : (
             <div>no data</div>

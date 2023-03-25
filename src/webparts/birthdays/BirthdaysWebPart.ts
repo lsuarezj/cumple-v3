@@ -3,7 +3,6 @@ import * as ReactDom from "react-dom";
 import { Version } from "@microsoft/sp-core-library";
 import {
   IPropertyPaneConfiguration,
-  PropertyPaneTextField,
   PropertyPaneToggle,
 } from "@microsoft/sp-property-pane";
 import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
@@ -18,6 +17,7 @@ export interface IBirthdaysWebPartProps {
   webpartType: boolean;
   numberUpcomingDays: number;
   useTestData: boolean;
+  wrapName: boolean;
 }
 
 export default class BirthdaysWebPart extends BaseClientSideWebPart<IBirthdaysWebPartProps> {
@@ -37,6 +37,7 @@ export default class BirthdaysWebPart extends BaseClientSideWebPart<IBirthdaysWe
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
         userDisplayName: this.context.pageContext.user.displayName,
         useTestData: this.properties.useTestData,
+        wrapName: this.properties.wrapName,
       }
     );
 
@@ -87,9 +88,6 @@ export default class BirthdaysWebPart extends BaseClientSideWebPart<IBirthdaysWe
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField("description", {
-                  label: strings.titleLabel,
-                }),
                 PropertyPaneToggle("webpartType", {
                   label: strings.webpartTypeLabel,
                   onText: strings.webpartTypeBirthday,
@@ -107,6 +105,12 @@ export default class BirthdaysWebPart extends BaseClientSideWebPart<IBirthdaysWe
                 PropertyPaneToggle("useTestData", {
                   key: "useTestData",
                   label: "Use test data",
+                  onText: "Yes",
+                  offText: "No",
+                }),
+                PropertyPaneToggle("wrapName", {
+                  key: "wrapName",
+                  label: "Nombre completo en varias líneas",
                   onText: "Yes",
                   offText: "No",
                 }),
