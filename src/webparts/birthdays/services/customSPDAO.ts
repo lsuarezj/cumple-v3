@@ -72,34 +72,9 @@ const validateAnniversary = (
   anniversary: string,
   numberUpcomingDays: number
 ): boolean => {
-  console.log("anniversary: ");
   return validateDate(
     anniversary,
     numberUpcomingDays,
     new Date().getFullYear()
   );
 };
-
-// const validateBirthday = (
-//   birthday: string,
-//   numberUpcomingDays: number
-// ): boolean => {
-//   const [_year, month, day] = birthday.split("-").map((item) => parseInt(item));
-//   const date1 = DateTime.local(currentYear, month, day);
-//   const date2 = DateTime.fromISO(new Date().toISOString());
-//   const diffInDays = Math.ceil(date2.diff(date1, "days").toObject().days);
-//   return diffInDays > 0 && diffInDays <= numberUpcomingDays;
-// };
-
-// const validateAniversary = (
-//   anniversary: string,
-//   numberUpcomingDays: number
-// ): boolean => {
-//   const [_year, month, day] = anniversary
-//     .split("-")
-//     .map((item) => parseInt(item));
-//   const date1 = DateTime.local(currentYear, month, day);
-//   const date2 = DateTime.fromISO(new Date().toISOString());
-//   const diffInDays = Math.ceil(date2.diff(date1, "days").toObject().days);
-//   return diffInDays > 0 && diffInDays <= numberUpcomingDays;
-// };
