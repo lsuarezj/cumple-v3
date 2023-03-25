@@ -9,4 +9,5 @@ export interface IBirthdaysProps {
   webpartType: string;
   numberUpcomingDays: number;
   context: WebPartContext;
+  useTestData: boolean;
 }

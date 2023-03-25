@@ -12,11 +12,13 @@ import { PropertyFieldNumber } from "@pnp/spfx-property-controls/lib/PropertyFie
 import * as strings from "BirthdaysWebPartStrings";
 import Birthdays from "./components/Birthdays";
 import { IBirthdaysProps } from "./components/IBirthdaysProps";
+import { PropertyFieldToggleWithCallout } from "@pnp/spfx-property-controls";
 
 export interface IBirthdaysWebPartProps {
   description: string;
   webpartType: string;
   numberUpcomingDays: number;
+  useTestData: boolean;
 }
 
 export default class BirthdaysWebPart extends BaseClientSideWebPart<IBirthdaysWebPartProps> {
@@ -35,6 +37,7 @@ export default class BirthdaysWebPart extends BaseClientSideWebPart<IBirthdaysWe
         environmentMessage: this._environmentMessage,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
         userDisplayName: this.context.pageContext.user.displayName,
+        useTestData: this.properties.useTestData,
       }
     );
 
@@ -105,6 +108,12 @@ export default class BirthdaysWebPart extends BaseClientSideWebPart<IBirthdaysWe
                   maxValue: 10,
                   minValue: 1,
                   disabled: false,
+                }),
+                PropertyFieldToggleWithCallout("useTestData", {
+                  key: "useTestData",
+                  label: "Use test data",
+                  onText: "Yes",
+                  offText: "No",
                 }),
               ],
             },

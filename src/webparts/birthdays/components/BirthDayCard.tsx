@@ -7,38 +7,50 @@ import {
   CardHeader,
   Grid,
   Typography,
+  Tooltip,
 } from "@mui/material";
 import { IUser } from "../services/IUser";
 import * as strings from "BirthdaysWebPartStrings";
 import EmailButton from "./EmailButton";
+import { DateTime } from "luxon";
 
 const BirthDayCard = ({ user }: { user: IUser }) => {
   const {
-    key,
+    // key,
     userName,
     jobDescription,
     birthday,
     userEmail,
-    message,
-    anniversary,
+    // message,
+    // anniversary,
     userPhoto,
   } = user;
 
-  console.log({
-    key,
-    userName,
-    jobDescription,
-    birthday,
-    userEmail,
-    message,
-    anniversary,
-    userPhoto,
-  });
+  const [_year, month, day] = birthday.split("-").map((item) => parseInt(item));
+  const currentYear = new Date().getFullYear();
+  const isToday = new Date().getDate() === day;
+  const label = isToday
+    ? "Hoy"
+    : DateTime.local(currentYear, month, day)
+        .setLocale("es")
+        .toFormat("dd 'de' MMMM");
 
   return (
     <Grid item>
-      <Card sx={{ maxWidth: 250 }}>
+      <Card
+        style={{
+          marginTop: "15px",
+          minWidth: " 200px",
+          width: "200px",
+          minHeight: "190px",
+          marginRight: "15px",
+          position: "relative",
+          textAlign: "center",
+          display: "inline-block}",
+        }}
+      >
         <CardHeader
+          style={{ maxWidth: "200px", maxHeight: "200px", overflow: "auto" }}
           avatar={
             <div>
               <svg
@@ -90,12 +102,46 @@ const BirthDayCard = ({ user }: { user: IUser }) => {
               {strings.happyBirthdayMessage}
             </Typography>
           }
-          subheader={<Typography variant="body2">{userName}</Typography>}
-        />
-        <CardContent>
-          <Avatar src={userPhoto} alt={userName} />
-          <Typography variant="body2">{jobDescription}</Typography>
-          <Typography variant="body2">{birthday}</Typography>
+          subheader={
+            <Tooltip
+              title={userName}
+              placement="top"
+              style={{
+                maxWidth: "100px",
+                maxHeight: "100px",
+                overflow: "auto",
+              }}
+            >
+              <Typography variant="body2" noWrap>
+                {userName}
+              </Typography>
+            </Tooltip>
+          }
+        ></CardHeader>
+        <CardContent
+          style={{
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "row",
+            alignContent: "baseline",
+            flexWrap: "wrap",
+            justifyContent: "space-around",
+            rowGap: "10px",
+          }}
+        >
+          <Avatar
+            style={{ border: "solid 2px red" }}
+            src={userPhoto}
+            alt={userName}
+          />
+          <Tooltip title={jobDescription} placement="top">
+            <Typography variant="body2" noWrap>
+              {jobDescription}
+            </Typography>
+          </Tooltip>
+          <Tooltip title={label} placement="top">
+            <Typography variant="body2">{label}</Typography>
+          </Tooltip>
         </CardContent>
         <CardActions style={{ backgroundColor: "red", color: "white" }}>
           <svg

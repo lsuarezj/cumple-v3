@@ -19,13 +19,13 @@ export default class Birthdays extends React.Component<
   }
   public async componentDidMount(): Promise<void> {
     const data = await getDataForComponent(this.props);
-    console.log("data", data);
     this.setState({ users: data });
   }
 
   public render(): React.ReactElement<IBirthdaysProps> {
     const { users } = this.state;
     const { hasTeamsContext } = this.props;
+
     return (
       <section
         className={`${styles.birthdays} ${hasTeamsContext ? styles.teams : ""}`}
