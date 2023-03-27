@@ -25,9 +25,14 @@ export const getDataForComponent = async (
 
   return data.value
     .filter((item: any) => {
-      return useTestData || webpartType
-        ? validateBirthday(item.Birthday, numberUpcomingDays)
-        : validateAnniversary(item.Aniversity, numberUpcomingDays);
+      if (item.Birthday == null || item.Aniversity == null) return false;
+
+      return (
+        useTestData ||
+        (webpartType
+          ? validateBirthday(item.Birthday, numberUpcomingDays)
+          : validateAnniversary(item.Aniversity, numberUpcomingDays))
+      );
     })
     .map((item: any) => {
       return {

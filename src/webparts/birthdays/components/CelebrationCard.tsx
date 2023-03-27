@@ -24,24 +24,24 @@ const CelebrationCard = ({
   wrapName: boolean;
 }) => {
   const {
-    // key,
     userName,
     jobDescription,
     birthday,
     userEmail,
-    // message,
     anniversary,
     userPhoto,
   } = user;
 
-  const [_year, month, day] = birthday.split("-").map((item) => parseInt(item));
+  const [year, month, day] = (celebrationType ? birthday : anniversary)
+    .split("-")
+    .map((item) => parseInt(item));
+
   const currentYear = new Date().getFullYear();
   const isToday = new Date().getDate() === day;
   const label = isToday
     ? "Hoy"
-    : DateTime.local(currentYear, month, day)
-        .setLocale("es")
-        .toFormat("dd 'de' MMMM");
+    : DateTime.local(year, month, day).setLocale("es").toFormat("dd 'de' MMMM");
+
   const calculateYearsNumber = (): string => {
     const [ayear] = anniversary.split("-").map((item) => parseInt(item));
     return (currentYear - ayear).toString();
@@ -149,10 +149,14 @@ const CelebrationCard = ({
             </div>
           }
           title={
-            <Typography variant="body2" color={"red"}>
+            <Typography
+              variant="body2"
+              color={"red"}
+              style={{ fontSize: "0.8rem" }}
+            >
               {celebrationType
                 ? strings.happyBirthdayMessage
-                : `${calculateYearsNumber()} ${strings.anniversaryMessage}`}
+                : `${calculateYearsNumber()}  ${strings.anniversaryMessage}`}
             </Typography>
           }
           subheader={
