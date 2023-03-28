@@ -7,19 +7,12 @@ import {
   CardHeader,
   Typography,
   Tooltip,
+  Box,
 } from "@mui/material";
 import { IUser } from "../services/IUser";
 import * as strings from "BirthdaysWebPartStrings";
 import EmailButton from "./EmailButton";
 import { DateTime } from "luxon";
-import { makeStyles } from "@mui/styles";
-
-const useStyles: any = makeStyles({
-  bold: {
-    fontWeight: "bold",
-    maxWidth: "100px !important",
-  },
-});
 
 const CelebrationCard = ({
   user,
@@ -54,7 +47,6 @@ const CelebrationCard = ({
     return (currentYear - ayear).toString();
   };
 
-  const classes = useStyles();
   return (
     <Card
       style={{
@@ -167,7 +159,7 @@ const CelebrationCard = ({
           </Typography>
         }
         subheader={
-          <div style={{ maxWidth: "100px !important" }}>
+          <Box>
             <Tooltip
               title={userName}
               placement="top"
@@ -176,31 +168,20 @@ const CelebrationCard = ({
                 color: "#565656",
               }}
             >
-              <span className={classes.bold}>
+              <Box sx={{ fontWeight: "bold", maxWidth: "100px !important" }}>
                 {wrapName ? (
                   <Typography
                     noWrap
-                    style={{
-                      fontWeight: "bold",
-                      maxWidth: "100px !important",
-                    }}
-                    sx={{ maxWidth: "100px !important" }}
+                    sx={{ fontWeight: "bold", maxWidth: "100px !important" }}
                   >
                     {userName}
                   </Typography>
                 ) : (
-                  <Typography
-                    style={{
-                      fontWeight: "bold",
-                      maxWidth: "100px !important",
-                    }}
-                  >
-                    {userName}
-                  </Typography>
+                  <Typography>{userName}</Typography>
                 )}
-              </span>
+              </Box>
             </Tooltip>
-          </div>
+          </Box>
         }
       ></CardHeader>
       <CardContent
@@ -218,6 +199,7 @@ const CelebrationCard = ({
           style={{ border: "solid 2px red" }}
           src={userPhoto}
           alt={userName}
+          sx={{ width: 56, height: 56 }}
         />
         <Tooltip title={jobDescription} placement="top">
           <Typography variant="body2" noWrap>

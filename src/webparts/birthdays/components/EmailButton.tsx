@@ -11,7 +11,12 @@ const EmailButton = (props: { userEmail: any; children: any }) => {
 
   return (
     <Button
-      style={{ color: "#FFF" }}
+      sx={{
+        color: "#FFF",
+        textTransform: "none",
+        justifyContent: "center",
+        textAlign: "center",
+      }}
       size="small"
       onClick={() => {
         handleClick();

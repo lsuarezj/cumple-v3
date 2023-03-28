@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import * as React from "react";
 import { getDataForComponent } from "../services/customSPDAO";
 import { IUser } from "../services/IUser";
@@ -51,82 +51,39 @@ export default class Birthdays extends React.Component<
           <Typography style={{ margin: 10 }}>Showing Test Data</Typography>
         )}
         {users.length > 0 ? (
-          <Carousel
-            autoPlay={false}
-            animation="slide"
-            navButtonsAlwaysVisible
-            navButtonsProps={{
-              buttonWrapper: {
-                position: "absolute",
-                height: "100px",
-                backgroundColor: "transparent",
-                top: "calc(50% - 70px)",
-                "&:hover": {
-                  "& $button": {
-                    backgroundColor: "black",
-                    filter: "brightness(120%)",
-                    opacity: "0.4",
-                  },
-                },
-              },
-              fullHeightHoverWrapper: {
-                height: "100%",
-                top: "0",
-              },
-              buttonVisible: {
-                opacity: "1",
-              },
-              buttonHidden: {
-                opacity: "0",
-              },
-              button: {
-                margin: "10px 10px",
-                position: "relative",
-                backgroundColor: "#494949",
-                top: "calc(50% - 20px) !important",
-                color: "white",
-                fontSize: "30px",
-                transition: "200ms",
-                cursor: "pointer",
-                "&:hover": {
-                  opacity: "0.6 !important",
-                },
-              },
-              // Applies to the "next" button wrapper
-              next: {
-                right: 0,
-              },
-              // Applies to the "prev" button wrapper
-              prev: {
-                left: 0,
-              },
-            }}
-          >
-            {chunks.map((chunk: any[], index: React.Key) => (
-              <Grid
-                key={index}
-                container
-                spacing={3}
-                sx={{
-                  alingItems: "center",
-                  width: "100%",
-                  justifyContent: "space-evenly",
-                  flexWrap: "nowrap",
-                  margin: "0",
-                }}
-              >
-                {chunk.map((item) => (
-                  <Grid item>
-                    <CelebrationCard
-                      user={item}
-                      celebrationType={webpartType}
-                      wrapName={wrapName}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-            ))}
-          </Carousel>
+          <Box sx={{ minWidth: "500px !important" }}>
+            <Carousel
+              autoPlay={false}
+              animation="slide"
+              navButtonsAlwaysVisible
+              sx={{ minWidth: "500px !important" }}
+            >
+              {chunks.map((chunk: any[], index: React.Key) => (
+                <Grid
+                  key={index}
+                  container
+                  spacing={3}
+                  sx={{
+                    alingItems: "center",
+                    justifyContent: "space-evenly",
+                    flexWrap: "nowrap",
+                    margin: "0",
+                    minWidth: "500px",
+                  }}
+                >
+                  {chunk.map((item) => (
+                    <Grid item>
+                      <CelebrationCard
+                        user={item}
+                        celebrationType={webpartType}
+                        wrapName={wrapName}
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
+              ))}
+            </Carousel>
+          </Box>
         ) : (
           <div>no data</div>
         )}
