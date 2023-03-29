@@ -19,10 +19,12 @@ const CelebrationCard = ({
   user,
   celebrationType,
   wrapName,
+  themePrimary,
 }: {
   user: IUser;
   celebrationType: boolean;
   wrapName: boolean;
+  themePrimary: string;
 }) => {
   const {
     userName,
@@ -72,7 +74,7 @@ const CelebrationCard = ({
             <Grid item>
               <Typography
                 variant="body2"
-                color={"#D61921"}
+                color={themePrimary}
                 style={{ fontSize: "0.8rem", fontWeight: "bold" }}
               >
                 {celebrationType
@@ -108,7 +110,7 @@ const CelebrationCard = ({
                               width="761.40"
                               height="761.40"
                               rx="380.7"
-                              fill="#D61921"
+                              fill={themePrimary}
                               strokeWidth={"0"}
                             ></rect>
                           </g>
@@ -148,7 +150,7 @@ const CelebrationCard = ({
                               width="53.76"
                               height="53.76"
                               rx="26.88"
-                              fill="#D61921"
+                              fill={themePrimary}
                               strokeWidth={"0"}
                             ></rect>
                           </g>
@@ -221,7 +223,7 @@ const CelebrationCard = ({
         }}
       >
         <Avatar
-          style={{ border: "solid 2px red" }}
+          style={{ border: `solid 2px ${themePrimary}` }}
           src={userPhoto}
           alt={userName}
           sx={{ width: 100, height: 100 }}
@@ -236,14 +238,14 @@ const CelebrationCard = ({
             variant="body2"
             sx={{
               fontWeight: "bold !important",
-              color: "#D61921",
+              color: { themePrimary },
             }}
           >
             {label}
           </Typography>
         </Tooltip>
       </CardContent>
-      <CardActions style={{ backgroundColor: "#D61921", color: "white" }}>
+      <CardActions style={{ backgroundColor: themePrimary, color: "white" }}>
         <svg
           fill="#FFFFFF"
           width="30px"

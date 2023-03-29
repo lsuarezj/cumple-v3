@@ -11,4 +11,5 @@ export interface IBirthdaysProps {
   context: WebPartContext;
   useTestData: boolean;
   wrapName: boolean;
+  themePrimary: string;
 }

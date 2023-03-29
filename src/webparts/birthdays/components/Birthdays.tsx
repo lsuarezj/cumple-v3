@@ -31,7 +31,13 @@ export default class Birthdays extends React.Component<
 
   public render(): React.ReactElement<IBirthdaysProps> {
     const { users } = this.state;
-    const { hasTeamsContext, useTestData, webpartType, wrapName } = this.props;
+    const {
+      hasTeamsContext,
+      useTestData,
+      webpartType,
+      wrapName,
+      themePrimary,
+    } = this.props;
 
     const chunkSize = 3;
     const chunks = _.chunk(users, chunkSize);
@@ -40,7 +46,7 @@ export default class Birthdays extends React.Component<
       <section
         className={`${styles.birthdays} ${hasTeamsContext ? styles.teams : ""}`}
       >
-        <Typography component="h1" variant="h4" style={{ color: "#D61921" }}>
+        <Typography component="h1" variant="h4" style={{ color: themePrimary }}>
           <strong>
             {webpartType
               ? strings.webpartTitleCumpleaños
@@ -77,6 +83,7 @@ export default class Birthdays extends React.Component<
                         user={item}
                         celebrationType={webpartType}
                         wrapName={wrapName}
+                        themePrimary={themePrimary}
                       />
                     </Grid>
                   ))}

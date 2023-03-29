@@ -23,6 +23,7 @@ export interface IBirthdaysWebPartProps {
 export default class BirthdaysWebPart extends BaseClientSideWebPart<IBirthdaysWebPartProps> {
   private _isDarkTheme: boolean = false;
   private _environmentMessage: string = "";
+  private _theme: IReadonlyTheme | undefined;
 
   public render(): void {
     const element: React.ReactElement<IBirthdaysProps> = React.createElement(
@@ -38,6 +39,7 @@ export default class BirthdaysWebPart extends BaseClientSideWebPart<IBirthdaysWe
         userDisplayName: this.context.pageContext.user.displayName,
         useTestData: this.properties.useTestData,
         wrapName: this.properties.wrapName,
+        themePrimary: this._theme ? this._theme.palette.themePrimary : "",
       }
     );
 
@@ -49,20 +51,8 @@ export default class BirthdaysWebPart extends BaseClientSideWebPart<IBirthdaysWe
       return;
     }
 
+    this._theme = currentTheme;
     this._isDarkTheme = !!currentTheme.isInverted;
-    const { semanticColors } = currentTheme;
-
-    if (semanticColors) {
-      this.domElement.style.setProperty(
-        "--bodyText",
-        semanticColors.bodyText || null
-      );
-      this.domElement.style.setProperty("--link", semanticColors.link || null);
-      this.domElement.style.setProperty(
-        "--linkHovered",
-        semanticColors.linkHovered || null
-      );
-    }
   }
 
   protected onDispose(): void {
