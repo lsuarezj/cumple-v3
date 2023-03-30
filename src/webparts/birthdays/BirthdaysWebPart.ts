@@ -3,6 +3,7 @@ import * as ReactDom from "react-dom";
 import { Version } from "@microsoft/sp-core-library";
 import {
   IPropertyPaneConfiguration,
+  PropertyPaneTextField,
   PropertyPaneToggle,
 } from "@microsoft/sp-property-pane";
 import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
@@ -18,6 +19,7 @@ export interface IBirthdaysWebPartProps {
   numberUpcomingDays: number;
   useTestData: boolean;
   wrapName: boolean;
+  linkToSendMessage: string;
 }
 
 export default class BirthdaysWebPart extends BaseClientSideWebPart<IBirthdaysWebPartProps> {
@@ -40,6 +42,7 @@ export default class BirthdaysWebPart extends BaseClientSideWebPart<IBirthdaysWe
         useTestData: this.properties.useTestData,
         wrapName: this.properties.wrapName,
         themePrimary: this._theme ? this._theme.palette.themePrimary : "",
+        linkToSendMessage: this.properties.linkToSendMessage,
       }
     );
 
@@ -91,6 +94,9 @@ export default class BirthdaysWebPart extends BaseClientSideWebPart<IBirthdaysWe
                   maxValue: 10,
                   minValue: 1,
                   disabled: false,
+                }),
+                PropertyPaneTextField("linkToSendMessage", {
+                  label: strings.linkToSendMessageLabel,
                 }),
                 PropertyPaneToggle("useTestData", {
                   key: "useTestData",

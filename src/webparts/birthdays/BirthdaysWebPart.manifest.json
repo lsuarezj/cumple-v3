@@ -34,7 +34,8 @@
         "description": "Birthdays",
         "webpartType": "Cumpleaños",
         "numberUpcomingDays": 5,
-        "useTestData": false
+        "useTestData": false,
+        "linkToSendMessage": "https://camaramed.sharepoint.com/sites/Intranet/_layouts/15/listform.aspx?PageType=8&ListId=%7BBF8B58CF-4CBA-4EC2-8D69-4299D7A0083F%7D&RootFolder=%2Fsites%2FIntranet%2FLists%2FFelicitacionesCamara&Source=https%3A%2F%2Fcamaramed.sharepoint.com%2Fsites%2FIntranet%2FLists%2FFelicitacionesCamara%2FAllItems.aspx&ContentTypeId=0x01009EA3F59690DA5543B0DE9D112E6E53A7"
       }
     }
   ]

@@ -28,5 +28,6 @@ define([], function () {
     cardActionMessage: "Envíale un mensaje",
     messageSubject: "Feliz cumpleaños",
     anniversaryMessage: "Años de servicio",
+    linkToSendMessageLabel: "Enlace para enviar mensaje",
   };
 });

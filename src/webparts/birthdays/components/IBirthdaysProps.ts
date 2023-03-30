@@ -12,4 +12,5 @@ export interface IBirthdaysProps {
   useTestData: boolean;
   wrapName: boolean;
   themePrimary: string;
+  linkToSendMessage: string;
 }

@@ -1,4 +1,5 @@
 declare interface IBirthdaysWebPartStrings {
+  linkToSendMessageLabel: string;
   PropertyPaneDescription: string;
   BasicGroupName: string;
   DescriptionFieldLabel: string;
