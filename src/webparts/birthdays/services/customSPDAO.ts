@@ -53,13 +53,15 @@ const validateDate = (
   targetYear: number
 ): boolean => {
   try {
-    const { month, day } = DateTime.fromISO(dateString).toObject();
+    const { month, day } = DateTime.fromISO(
+      dateString.split("T")[0]
+    ).toObject();
     const targetDate = DateTime.local(targetYear, month, day);
     const currentDate = DateTime.now();
-    return (
-      targetDate > currentDate &&
-      targetDate.diff(currentDate, "days").toObject().days <= numberUpcomingDays
-    );
+    const { days } = targetDate.diff(currentDate, "days").toObject();
+    const diffDays = Math.ceil(days);
+
+    return diffDays >= 0 && diffDays <= numberUpcomingDays;
   } catch (error) {
     console.error("Error validating date:", error);
     return false;

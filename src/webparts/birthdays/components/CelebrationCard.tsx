@@ -50,6 +50,14 @@ const CelebrationCard = ({
     return (currentYear - ayear).toString();
   };
 
+  const getGreetings = (): string => {
+    if (celebrationType) {
+      return isToday ? strings.happyBirthdayMessage : "Próximo cumpleaños";
+    }
+
+    return `${calculateYearsNumber()}  ${strings.anniversaryMessage}`;
+  };
+
   return (
     <Card
       style={{
@@ -61,6 +69,7 @@ const CelebrationCard = ({
         position: "relative",
         textAlign: "center",
         display: "inline-block}",
+        ...(isToday ? { backgroundColor: "#f0f8ff" } : {}),
       }}
     >
       <CardHeader
@@ -77,9 +86,7 @@ const CelebrationCard = ({
                 color={themePrimary}
                 style={{ fontSize: "0.8rem", fontWeight: "bold" }}
               >
-                {celebrationType
-                  ? strings.happyBirthdayMessage
-                  : `${calculateYearsNumber()}  ${strings.anniversaryMessage}`}
+                {getGreetings()}
               </Typography>
             </Grid>
             <Grid item>
