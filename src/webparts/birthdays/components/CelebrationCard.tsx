@@ -47,9 +47,9 @@ const CelebrationCard = ({
     ? "Hoy"
     : DateTime.local(year, month, day).setLocale("es").toFormat("dd 'de' MMMM");
 
-  const calculateYearsNumber = (): string => {
+  const calculateYearsNumber = (): number => {
     const [ayear] = anniversary.split("-").map((item) => parseInt(item));
-    return (currentYear - ayear).toString();
+    return currentYear - ayear;
   };
 
   const getGreetings = (): string => {
@@ -58,6 +58,16 @@ const CelebrationCard = ({
     }
 
     return `${calculateYearsNumber()}  ${strings.anniversaryMessage}`;
+  };
+
+  const getBackgroundColor = (): any => {
+    if (celebrationType) {
+      return isToday ? { backgroundColor: "#f0f8ff" } : {};
+    }
+    const anniversary = calculateYearsNumber();
+    if (anniversary % 5 === 0) {
+      return { backgroundColor: "#f0f8ff" };
+    }
   };
 
   return (
@@ -71,7 +81,7 @@ const CelebrationCard = ({
         position: "relative",
         textAlign: "center",
         display: "inline-block}",
-        ...(isToday ? { backgroundColor: "#f0f8ff" } : {}),
+        ...getBackgroundColor(),
       }}
     >
       <CardHeader

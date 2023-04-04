@@ -53,13 +53,14 @@ export const getDataForComponent = async (
         userEmail: item.email,
         jobDescription: item.JobTitle,
         userPhoto: `/_layouts/15/userphoto.aspx?size=L&username=${item.email}`,
-        anniversary: anniversary().toString(),
+        anniversary: item.Aniversity.split("T")[0],
+        anniversaryToSort: anniversary().toString(),
         birthday: Birthday().toString(),
       };
     })
     .sort((a: IUser, b: IUser) => {
-      const dateA = new Date(webpartType ? a.birthday : a.anniversary);
-      const dateB = new Date(webpartType ? b.birthday : b.anniversary);
+      const dateA = new Date(webpartType ? a.birthday : a.anniversaryToSort);
+      const dateB = new Date(webpartType ? b.birthday : b.anniversaryToSort);
 
       if (dateA < dateB) {
         return -1;
