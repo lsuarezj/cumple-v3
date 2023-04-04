@@ -20,11 +20,13 @@ const CelebrationCard = ({
   celebrationType,
   wrapName,
   themePrimary,
+  linkToSendMessage,
 }: {
   user: IUser;
   celebrationType: boolean;
   wrapName: boolean;
   themePrimary: string;
+  linkToSendMessage: string;
 }) => {
   const {
     userName,
@@ -272,7 +274,10 @@ const CelebrationCard = ({
             <path d="M5 24.225V7.776h22v16.447H5v.002zm3.011-1.815h15.978l-5.111-5.115L16 20.179l-2.877-2.883-5.112 5.114zm-1.216-1.275l5.077-5.09-5.077-5.065v10.155zm13.332-5.09l5.079 5.09V10.979l-5.079 5.066zm-4.126 1.588l8.022-8.027-16.045-.001 8.023 8.028z"></path>
           </g>
         </svg>
-        <EmailButton userEmail={userEmail}>
+        <EmailButton
+          userEmail={userEmail}
+          linkToSendMessage={linkToSendMessage}
+        >
           {strings.cardActionMessage}
         </EmailButton>
       </CardActions>

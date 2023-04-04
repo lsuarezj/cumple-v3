@@ -30,6 +30,7 @@ export default class Birthdays extends React.Component<
   }
 
   public render(): React.ReactElement<IBirthdaysProps> {
+    console.log(this.state.users);
     const { users } = this.state;
     const {
       hasTeamsContext,
@@ -37,6 +38,7 @@ export default class Birthdays extends React.Component<
       webpartType,
       wrapName,
       themePrimary,
+      linkToSendMessage,
     } = this.props;
 
     const chunkSize = 3;
@@ -84,6 +86,7 @@ export default class Birthdays extends React.Component<
                         celebrationType={webpartType}
                         wrapName={wrapName}
                         themePrimary={themePrimary}
+                        linkToSendMessage={linkToSendMessage}
                       />
                     </Grid>
                   ))}

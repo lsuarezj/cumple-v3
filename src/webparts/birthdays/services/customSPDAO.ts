@@ -7,15 +7,11 @@ export const getDataForComponent = async (
   props: IBirthdaysProps
 ): Promise<IUser[]> => {
   const { context, numberUpcomingDays, useTestData, webpartType } = props;
-  // const baseURL = context.pageContext.web.absoluteUrl;
   const baseURL = "https://camaramed.sharepoint.com/";
   const listName = "Birthdays";
   const select = "$select=Id,Title,email,JobTitle,Aniversity,Birthday";
   const orderBy = "&$orderby=Birthday desc";
   const simpleQuery = `${baseURL}_api/lists/getbytitle('${listName}')/items?${select}&$top=5${orderBy}`;
-  //   const queryURL = `${baseURL}_api/web/lists/getbytitle('${listName}')/items?$select=Title,Birthday&$filter=month(Birthday) eq month(getdate()) and day(Birthday) ge day(getdate()) and day(Birthday) le day(getdate() + ${
-  //     numberUpcomingDays && 5
-  //   })`;
   const queryURL = `${baseURL}_api/web/lists/getbytitle('${listName}')/items?${select}&$top=5000${orderBy}`;
   const data = await context.spHttpClient
     .get(useTestData ? simpleQuery : queryURL, SPHttpClient.configurations.v1)
@@ -35,15 +31,41 @@ export const getDataForComponent = async (
       );
     })
     .map((item: any) => {
+      const targetYear = new Date().getFullYear();
+      const Birthday = () => {
+        const { month, day } = DateTime.fromISO(
+          item.Birthday.split("T")[0]
+        ).toObject();
+        return DateTime.local(targetYear, month, day);
+      };
+
+      const anniversary = () => {
+        const { month, day } = DateTime.fromISO(
+          item.Aniversity.split("T")[0]
+        ).toObject();
+
+        return DateTime.local(targetYear, month, day);
+      };
+
       return {
         key: item.Id,
         userName: item.Title,
         userEmail: item.email,
         jobDescription: item.JobTitle,
         userPhoto: `/_layouts/15/userphoto.aspx?size=L&username=${item.email}`,
-        anniversary: item.Aniversity.split("T")[0],
-        birthday: item.Birthday.split("T")[0],
+        anniversary: anniversary().toString(),
+        birthday: Birthday().toString(),
       };
+    })
+    .sort((a: IUser, b: IUser) => {
+      const dateA = new Date(webpartType ? a.birthday : a.anniversary);
+      const dateB = new Date(webpartType ? b.birthday : b.anniversary);
+
+      if (dateA < dateB) {
+        return -1;
+      }
+
+      return 1;
     });
 };
 
