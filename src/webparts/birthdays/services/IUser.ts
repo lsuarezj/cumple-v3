@@ -8,4 +8,5 @@ export interface IUser {
   anniversary: string;
   anniversaryToSort: string;
   userPhoto: string;
+  idColaborador: string;
 }

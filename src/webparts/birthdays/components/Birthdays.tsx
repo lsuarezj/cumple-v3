@@ -1,6 +1,6 @@
 import { Box, Grid, Typography } from "@mui/material";
 import * as React from "react";
-import { getDataForComponent } from "../services/customSPDAO";
+import { getDataForComponent, getImageData } from "../services/customSPDAO";
 import { IUser } from "../services/IUser";
 import CelebrationCard from "./CelebrationCard";
 import styles from "./Birthdays.module.scss";
@@ -11,12 +11,13 @@ import * as _ from "lodash";
 
 export default class Birthdays extends React.Component<
   IBirthdaysProps,
-  { users: IUser[] }
+  { users: IUser[]; imgData: any[] }
 > {
   constructor(props: IBirthdaysProps) {
     super(props);
     this.state = {
       users: [],
+      imgData: [],
     };
   }
 
@@ -26,11 +27,11 @@ export default class Birthdays extends React.Component<
 
   private async getData(): Promise<void> {
     const data = await getDataForComponent(this.props);
-    this.setState({ users: data });
+    const imgData = await getImageData(data, this.props);
+    this.setState({ users: imgData });
   }
 
   public render(): React.ReactElement<IBirthdaysProps> {
-    console.log(this.state.users);
     const { users } = this.state;
     const {
       hasTeamsContext,

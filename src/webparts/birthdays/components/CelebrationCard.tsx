@@ -102,7 +102,11 @@ const CelebrationCard = ({
               </Typography>
             </Grid>
             <Grid item>
-              <Grid container spacing={2} sx={{ alignItems: "center" }}>
+              <Grid
+                container
+                spacing={2}
+                sx={{ alignItems: "center", justifyContent: "center" }}
+              >
                 <Grid item>
                   <div>
                     {celebrationType ? (
@@ -189,7 +193,11 @@ const CelebrationCard = ({
                   </div>
                 </Grid>
                 <Grid item>
-                  <Box>
+                  <Box
+                    minHeight={"96px"}
+                    display={"flex"}
+                    alignItems={"center"}
+                  >
                     <Tooltip
                       title={userName}
                       placement="top"
@@ -218,7 +226,9 @@ const CelebrationCard = ({
                           </Typography>
                         ) : (
                           <Typography sx={{ fontWeight: "bold !important" }}>
-                            {userName}
+                            {userName.length > 27
+                              ? userName.slice(0, 27) + "..."
+                              : userName}
                           </Typography>
                         )}
                       </Box>

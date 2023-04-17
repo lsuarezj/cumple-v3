@@ -9,7 +9,8 @@ export const getDataForComponent = async (
   const { context, numberUpcomingDays, useTestData, webpartType } = props;
   const baseURL = "https://camaramed.sharepoint.com/";
   const listName = "Birthdays";
-  const select = "$select=Id,Title,email,JobTitle,Aniversity,Birthday";
+  const select =
+    "$select=Id,Title,email,JobTitle,Aniversity,Birthday,idColaborador";
   const orderBy = "&$orderby=Birthday desc";
   const simpleQuery = `${baseURL}_api/lists/getbytitle('${listName}')/items?${select}&$top=5${orderBy}`;
   const queryURL = `${baseURL}_api/web/lists/getbytitle('${listName}')/items?${select}&$top=5000${orderBy}`;
@@ -56,6 +57,7 @@ export const getDataForComponent = async (
         anniversary: item.Aniversity.split("T")[0],
         anniversaryToSort: anniversary().toString(),
         birthday: Birthday().toString(),
+        idColaborador: item.idColaborador,
       };
     })
     .sort((a: IUser, b: IUser) => {
@@ -107,4 +109,39 @@ const validateAnniversary = (
     numberUpcomingDays,
     new Date().getFullYear()
   );
+};
+
+export const getImageData = async (users: IUser[], props: IBirthdaysProps) => {
+  const { context } = props;
+  const baseURL = "https://camaramed.sharepoint.com/sites/Intranet/";
+  const listName = "Fotos Colaboradores";
+  const select = "$select=id,idColaborador,File/ServerRelativeUrl&$expand=File";
+  const noPhoto =
+    "https://camaramed.sharepoint.com/sites/Intranet/Lists/Fotos/sinfoto.jpg";
+  const cleanUsersIds = users.filter((user) => user.idColaborador !== null);
+  const usersIds = cleanUsersIds
+    .map((user) => `idColaborador eq '${user.idColaborador}'`)
+    .join(" OR ");
+  const filter = `&$filter=(${usersIds})`;
+  const queryURL = `${baseURL}_api/web/lists/getbytitle('${listName}')/items?${select}${filter}`;
+
+  if (cleanUsersIds.length === 0)
+    return users.map((user) => ({ ...user, userPhoto: noPhoto }));
+
+  const data = await context.spHttpClient
+    .get(queryURL, SPHttpClient.configurations.v1)
+    .then((response: SPHttpClientResponse) => {
+      return response.json();
+    });
+
+  return users.map((user) => {
+    const photo = data.value.find(
+      (item: any) => item.idColaborador === user.idColaborador
+    );
+
+    return {
+      ...user,
+      userPhoto: photo ? photo.File.ServerRelativeUrl : noPhoto,
+    };
+  });
 };
