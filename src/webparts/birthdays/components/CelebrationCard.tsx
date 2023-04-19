@@ -258,7 +258,7 @@ const CelebrationCard = ({
           sx={{ width: 100, height: 100 }}
         />
         <Tooltip title={jobDescription} placement="top">
-          <Typography variant="body2" noWrap>
+          <Typography variant="body2" noWrap width={"100%"}>
             {jobDescription}
           </Typography>
         </Tooltip>

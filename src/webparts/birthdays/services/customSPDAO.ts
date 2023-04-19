@@ -111,19 +111,23 @@ const validateAnniversary = (
   );
 };
 
-export const getImageData = async (users: IUser[], props: IBirthdaysProps) => {
+export const getImageData = async (
+  users: IUser[] = [],
+  props: IBirthdaysProps
+) => {
   const { context } = props;
   const baseURL = "https://camaramed.sharepoint.com/sites/Intranet/";
   const listName = "Fotos Colaboradores";
-  const select = "$select=id,idColaborador,File/ServerRelativeUrl&$expand=File";
+  const select =
+    "$select=id,idColaborador,File/ServerRelativeUrl,File/Name&$expand=File";
   const noPhoto =
     "https://camaramed.sharepoint.com/sites/Intranet/Lists/Fotos/sinfoto.jpg";
   const cleanUsersIds = users.filter((user) => user.idColaborador !== null);
-  const usersIds = cleanUsersIds
-    .map((user) => `idColaborador eq '${user.idColaborador}'`)
-    .join(" OR ");
-  const filter = `&$filter=(${usersIds})`;
-  const queryURL = `${baseURL}_api/web/lists/getbytitle('${listName}')/items?${select}${filter}`;
+  // const usersIds = cleanUsersIds
+  //   .map((user) => `idColaborador eq '${user.idColaborador}'`)
+  //   .join(" OR ");
+  // const filter = `&$filter=(${usersIds})`;
+  const queryURL = `${baseURL}_api/web/lists/getbytitle('${listName}')/items?${select}&$top=5000`;
 
   if (cleanUsersIds.length === 0)
     return users.map((user) => ({ ...user, userPhoto: noPhoto }));
@@ -135,8 +139,8 @@ export const getImageData = async (users: IUser[], props: IBirthdaysProps) => {
     });
 
   return users.map((user) => {
-    const photo = data.value.find(
-      (item: any) => item.idColaborador === user.idColaborador
+    const photo = data.value.find((item: any) =>
+      item.File.Name.includes(user.idColaborador)
     );
 
     return {
